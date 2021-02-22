@@ -43,6 +43,8 @@ grocery_stores = [
     }
 ]
 # POST /store {name:}
+
+
 @app.route('/store', methods=['POST'])
 def create_store():
     request_data = request.get_json()
@@ -54,6 +56,8 @@ def create_store():
     return jsonify(new_store)
 
 # GET /store/<string:name>
+
+
 @app.route('/store/<string:name>')
 def get_store(name):
     for store in grocery_stores:
@@ -62,11 +66,15 @@ def get_store(name):
     return jsonify({'message': 'store not found'})
 
 # GET /store
+
+
 @app.route('/store')
 def get_stores():
     return jsonify({'stores': grocery_stores})
 
 # POST /store/<string:name>/groceries {name:, price:, qty:}
+
+
 @app.route('/store/<string:name>/groceries', methods=['POST'])
 def create_item_in_store(name):
     request_data = request.get_json()
@@ -82,6 +90,8 @@ def create_item_in_store(name):
     return jsonify({'message': 'store not found'})
 
 # GET /store/<string:name>/groceries/<string:iname>
+
+
 @app.route('/store/<string:name>/groceries/<string:iname>')
 def get_item_in_store(name, iname):
     for store in grocery_stores:
@@ -93,11 +103,13 @@ def get_item_in_store(name, iname):
     return jsonify({'message': 'store not found'})
 
 # DELETE /store/<string:name>/groceries/<string:iname>
+
+
 @app.route('/store/<string:name>/groceries/<string:iname>', methods=['DELETE'])
 def del_item_in_store(name, iname):
     cnt = -1
     for store in grocery_stores:
-        cnt+=1
+        cnt += 1
         if store['name'] == name:
             for item in store["groceries"]:
                 if item['name'] == iname:
