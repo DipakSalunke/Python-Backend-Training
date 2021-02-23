@@ -63,7 +63,7 @@ def get_store(name):
     for store in grocery_stores:
         if store["name"] == name:
             return jsonify(store)
-    return jsonify({'message': 'store not found'})
+    return jsonify({'message': 'store not found'}),404
 
 # GET /store
 
@@ -86,8 +86,8 @@ def create_item_in_store(name):
                 'qty': request_data['qty']
             }
             store['groceries'].append(new_item)
-            return jsonify(new_item)
-    return jsonify({'message': 'store not found'})
+            return jsonify(new_item),201
+    return jsonify({'message': 'store not found'}),404
 
 # GET /store/<string:name>/groceries/<string:iname>
 
@@ -99,8 +99,8 @@ def get_item_in_store(name, iname):
             for item in store['groceries']:
                 if item['name'] == iname:
                     return jsonify(item)
-            return jsonify({'message': 'item not found'})
-    return jsonify({'message': 'store not found'})
+            return jsonify({'message': 'item not found'}),404
+    return jsonify({'message': 'store not found'}),404
 
 # DELETE /store/<string:name>/groceries/<string:iname>
 
@@ -115,8 +115,8 @@ def del_item_in_store(name, iname):
                 if item['name'] == iname:
                     grocery_stores[cnt]["groceries"].remove(item)
                     return jsonify({'message': 'item deleted successfully'})
-            return jsonify({'message': 'item not found'})
-    return jsonify({'message': 'store not found'})
+            return jsonify({'message': 'item not found'}),404
+    return jsonify({'message': 'store not found'}),404
 
 
 app.run(port=5000)
