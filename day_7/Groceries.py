@@ -24,21 +24,22 @@ class vegetable(Resource):
                         )
 
     def get(self, name):
-        veg =  {'vegetable': next(filter(lambda x: x['name'] == name, vegetables), None)}
+        veg = {'vegetable': next(
+            filter(lambda x: x['name'] == name, vegetables), None)}
         if veg['vegetable'] is None:
-            return {"message":"vegetable not found"},404
+            return {"message": "vegetable not found"}, 404
         else:
-            return veg,200
+            return veg, 200
 
     def delete(self, name):
         global vegetables
         vegbef = len(vegetables)
         vegetables = list(filter(lambda x: x['name'] != name, vegetables))
         vegaft = len(vegetables)
-        if vegbef>vegaft:
-            return {'message': 'vegetable deleted'},200
+        if vegbef > vegaft:
+            return {'message': 'vegetable deleted'}, 200
         else:
-            return {"message":"vegetable not found"},404
+            return {"message": "vegetable not found"}, 404
 
     def put(self, name):
         data = vegetable.parser.parse_args()
@@ -48,7 +49,7 @@ class vegetable(Resource):
             vegetables.append(veg)
         else:
             veg.update(data)
-        return veg,201
+        return veg, 201
 
 
 class vegetableList(Resource):
@@ -63,17 +64,17 @@ class vegetableList(Resource):
                         required=True,
                         help="quantity field cannot be left blank!"
                         )
-    
+
     def get(self):
-        return {'vegetables': vegetables},200
-    
+        return {'vegetables': vegetables}, 200
+
     def post(self):
         data = vegetableList.parser.parse_args()
         if next(filter(lambda x: x['name'] == data['name'], vegetables), None) is not None:
-            return {'message': "vegetable with name '{}' already exists.".format(data['name'])},400
+            return {'message': "vegetable with name '{}' already exists.".format(data['name'])}, 400
         vegetable = {'name': data['name'], 'quantity': data['quantity']}
         vegetables.append(vegetable)
-        return vegetable,201
+        return vegetable, 201
 
 
 api.add_resource(vegetable, '/vegetable/<string:name>')
