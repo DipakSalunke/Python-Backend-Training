@@ -1,7 +1,7 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
-from .models import Developer,Skill
+from .models import Developer
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import ListView
@@ -33,14 +33,7 @@ class DevelopersList(ListView):
 
 def level(request, dev_id):
     dev = get_object_or_404(Developer, pk=dev_id)
-    try:
-        select = dev.skill_set.get(pk=request.POST['skill'])
-    except(KeyError, Skill.DoesNotExist):
-        return render(request, 'ninja/details.html',{
-            'dev':dev,
-            'error_message':"No Skill"
-        })
-    else:
-        select.level += 1
-        select.save()
-        return HttpResponseRedirect(reverse('ninjas:details',args=(dev_id,)))
+    select = dev.skill_set.get(pk=request.POST['skill'])
+    select.level += 1
+    select.save()
+    return HttpResponseRedirect(reverse('ninjas:details',args=(dev_id,)))
