@@ -1,0 +1,17 @@
+{%extends 'base.html' %}
+
+{% block surround %}
+
+    <h2>Hey</h2>
+    <h1>{{ request.user }}</h1>
+    <h3>Welcome !</h3>
+
+    {%include 'navbar.html' %}
+
+    {{ Country|safe }}
+
+    {% for item in info %}
+        <ul>{{item}}</ul>
+    {% endfor %}
+
+{% endblock %}
